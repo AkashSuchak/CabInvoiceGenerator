@@ -27,6 +27,14 @@ namespace CabInvoiceGenerator
             this.averageFare = this.totalFare / this.numberOfRides;
         }
 
+        //Parameterized Constructor for setting Data
+        public InvoiceSummary(int numberOfRides, double totalFare, string userId)
+        {
+            this.numberOfRides = numberOfRides;
+            this.totalFare = totalFare;
+            this.averageFare = this.totalFare / this.numberOfRides;
+        }
+
         //OverRiding Equals Method
         public override bool Equals(object obj)
         {
