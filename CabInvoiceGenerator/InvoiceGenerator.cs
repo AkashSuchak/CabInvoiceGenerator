@@ -65,6 +65,30 @@ namespace CabInvoiceGenerator
             }
             return Math.Max(totalFare, MINIMUM_FARE);
         }
+
+        public InvoiceSummary CalculateFare(Ride[] rides, int numOfRides, double averageFarePerRide)
+        {
+            double totalFare = 0;
+            numOfRides = 0;
+            averageFarePerRide = 0;
+            try
+            {
+                foreach (Ride ride in rides)
+                {
+                    totalFare += this.CalculateFare(ride.distance, ride.time);
+                }
+                averageFarePerRide = totalFare / numOfRides;
+            }
+            catch (CabInvoiceException)
+            {
+                if (rides == null)
+                {
+                    throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "Rides Are Null");
+                }
+            }
+            return new InvoiceSummary(rides.Length, totalFare, averageFarePerRide);
+        }
+
         public InvoiceSummary CalculateFare(Ride[] rides)
         {
             double totalFare = 0;
@@ -108,7 +132,6 @@ namespace CabInvoiceGenerator
             }
             catch (CabInvoiceException)
             {
-
                 throw new CabInvoiceException(CabInvoiceException.ExceptionType.INVALID_USER_ID, "Invalid User Id");
             }
         }
